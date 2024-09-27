@@ -68,5 +68,4 @@ public class TeacherController {
         TeacherVO teach = teachService.getTeach(teacher);
         return ApiResponse.success(teach);
     }
-
 }
