@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.graduationproject.demos.web.dao.TeacherDao">
+    <resultMap id="teacherMap" type="com.example.graduationproject.demos.web.model.vo.TeacherVO">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="teachLevel" column="teach_level"/>
+        <result property="remark" column="remark"/>
+        <result property="creationTime" column="creation_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    <insert id="addTeacher" parameterType="com.example.graduationproject.demos.web.model.dto.TeacherDTO">
+        insert into graduation_teach
+            (
+             name,
+             sex,
+             age,
+             teach_level,
+             remark,
+             creation_time,
+             update_time
+             )
+        values(
+               #{name},
+               #{sex},
+               #{age},
+               #{teachLevel},
+               #{remark},
+               NOW(),
+               NOW()
+               )
+    </insert>
+    <update id="updateTeacher" parameterType="com.example.graduationproject.demos.web.model.dto.TeacherDTO">
+        update graduation_teach
+        <set>
+            <if test="name != null and name != ''">
+                name=#{name},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex=#{sex},
+            </if>
+            <if test="age != null and age != ''">
+                age=#{age},
+            </if>
+            <if test="teachLevel != null and teachLevel != ''">
+                teach_level=#{teachLevel},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark=#{remark},
+            </if>
+            update_time=NOW()
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteTeacher">
+        delete from graduation_teach where id=#{id}
+    </delete>
+    <select id="getTeacherList" resultMap="teacherMap">
+        select
+            id,
+            name,
+            sex,
+            age,
+            teach_level as teach_level,
+            remark,
+            DATE_FORMAT(creation_time,'%Y-%m-%d %H:%i:%s') as creation_time,
+            DATE_FORMAT(update_time,'%Y-%m-%d %H:%i:%s') as update_time
+        from graduation_teach
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="sex !=null and sex !=''">
+                and sex=#{sex}
+            </if>
+            <if test="teachLevel !=null and teachLevel!=''">
+                and teach_level =#{teach_level}
+            </if>
+        </where>
+    </select>
+    <select id="getTeach" resultMap="teacherMap">
+        select
+            id,
+            name,
+            sex,
+            age,
+            teach_level as teach_level,
+            remark,
+            DATE_FORMAT(creation_time,'%Y-%m-%d %H:%i:%s') as creation_time,
+            DATE_FORMAT(update_time,'%Y-%m-%d %H:%i:%s') as update_time
+        from graduation_teach
+        where id=#{id}
+    </select>
+</mapper>
