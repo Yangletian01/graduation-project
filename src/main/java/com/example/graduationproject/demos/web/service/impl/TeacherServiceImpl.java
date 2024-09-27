@@ -6,6 +6,7 @@ import com.example.graduationproject.demos.web.model.ao.TeacherAO;
 import com.example.graduationproject.demos.web.model.dto.TeacherDTO;
 import com.example.graduationproject.demos.web.model.vo.TeacherVO;
 import com.example.graduationproject.demos.web.service.TeacherService;
+import com.example.graduationproject.demos.web.utils.BaseException;
 import org.springframework.beans.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,9 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public int deleteTeacher(TeacherAO teacher) {
         log.info("deleteTeacher入参:{}", teacher);
+        if(teacher.getId()==null){
+            throw new BaseException("删除时id不能为空");
+        }
         TeacherDTO teacherDTO = new TeacherDTO();
         BeanUtils.copyProperties(teacher, teacherDTO);
         return teacherDao.deleteTeacher(teacherDTO);
@@ -58,6 +62,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public int updateTeacher(TeacherAO teacher) {
+        if(teacher.getId()==null){
+            throw new BaseException("修改时id不能为空");
+        }
         log.info("updateTeacher入参:{}", teacher);
         TeacherDTO teacherDTO = new TeacherDTO();
         BeanUtils.copyProperties(teacher, teacherDTO);
