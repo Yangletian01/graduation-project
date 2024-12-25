@@ -23,5 +23,5 @@ public class TeacherDTO {
     private String remark;
     private String creationTime;
     private String updateTime;
-
+    private String entryTime;
 }

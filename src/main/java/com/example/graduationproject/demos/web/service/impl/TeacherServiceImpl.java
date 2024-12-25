@@ -1,7 +1,6 @@
 package com.example.graduationproject.demos.web.service.impl;
 
 
-import com.alibaba.fastjson.JSON;
 import com.example.graduationproject.demos.web.dao.TeacherDao;
 import com.example.graduationproject.demos.web.model.ao.TeacherAO;
 import com.example.graduationproject.demos.web.model.dto.TeacherDTO;
@@ -44,13 +43,13 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public List<TeacherVO> getTeachList(TeacherAO teacher){
         log.info("getTeachList入参:{}", teacher);
-        //先在redis中查询
-        List value =redisUtil.lGet("teachListKey",0,-1);
-        log.info("getTeachList出参redis:{}", value);
-        if(value.size()>0){
-            log.info("缓存中有数据!");
-            return value;
-        }
+          //先在redis中查询
+//        List value =redisUtil.lGet("teachListKey",0,-1);
+//        log.info("getTeachList出参redis:{}", value);
+//        if(value.size()>0){
+//            log.info("缓存中有数据!");
+//            return value;
+//        }
         //从库中查
         TeacherDTO teacherDTO = new TeacherDTO();
         //对象属性复制

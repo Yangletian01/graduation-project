@@ -20,10 +20,13 @@ public class TeacherVO  {
     private String name;
     private String age;
     private String sex;
+    private String sexName;
     private String teachLevel;
+    private String teachLevelName;
     private String remark;
+    private String remarkName;
     private String creationTime;
     private String updateTime;
-
+    private String entryTime;
 
 }

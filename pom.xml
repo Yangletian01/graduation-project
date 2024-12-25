@@ -87,6 +87,12 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+            <!-- 点进去里面有logback、log4j和slf4j -->
+            <!--  如果添加了这个依赖，SpringBoot 应用将自动使用 logback 作为应用日志框架 -->
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>

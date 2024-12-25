@@ -7,11 +7,15 @@
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="sex" column="sex"/>
+        <result property="sexName" column="sex_Name"/>
         <result property="age" column="age"/>
         <result property="teachLevel" column="teach_level"/>
+        <result property="teachLevelName" column="teach_level_name"/>
         <result property="remark" column="remark"/>
+        <result property="remarkName" column="remark_name"/>
         <result property="creationTime" column="creation_time"/>
         <result property="updateTime" column="update_time"/>
+        <result property="entryTime" column="entry_time"/>
     </resultMap>
     <insert id="addTeacher" parameterType="com.example.graduationproject.demos.web.model.dto.TeacherDTO">
         insert into graduation_teach
@@ -22,7 +26,8 @@
              teach_level,
              remark,
              creation_time,
-             update_time
+             update_time,
+             entry_time
              )
         values(
                #{name},
@@ -31,7 +36,8 @@
                #{teachLevel},
                #{remark},
                NOW(),
-               NOW()
+               NOW(),
+               str_to_date(#{entryTime},'%Y-%m-%d %H:%i:%s')
                )
     </insert>
     <update id="updateTeacher" parameterType="com.example.graduationproject.demos.web.model.dto.TeacherDTO">
@@ -52,7 +58,10 @@
             <if test="remark != null and remark != ''">
                 remark=#{remark},
             </if>
-            update_time=NOW()
+            update_time=NOW(),
+            <if test="entryTime != null and entryTime != ''">
+                entry_time=str_to_date(#{entryTime},'%Y-%m-%d %H:%i:%s')
+            </if>
         </set>
         where id=#{id}
     </update>
@@ -63,12 +72,26 @@
         select
             id,
             name,
+            case when sex='01' then '男'
+                when sex='02' then '女'
+                end sex_Name,
             sex,
             age,
+            case when teach_level='01' then '讲师'
+                 when teach_level='02' then '副教授'
+                 when teach_level='03' then '教授'
+                 else '其他'
+            end teach_level_name,
             teach_level as teach_level,
+            case when remark='01' then '数学教师'
+                when remark='02' then '英语教师'
+                when remark='03' then '语文教师'
+            else '其他'
+            end remark_name,
             remark,
             DATE_FORMAT(creation_time,'%Y-%m-%d %H:%i:%s') as creation_time,
-            DATE_FORMAT(update_time,'%Y-%m-%d %H:%i:%s') as update_time
+            DATE_FORMAT(update_time,'%Y-%m-%d %H:%i:%s') as update_time,
+            DATE_FORMAT(entry_time,'%Y-%m-%d %H:%i:%s') as entry_time
         from graduation_teach
         <where>
             <if test="name != null and name != ''">
@@ -78,7 +101,7 @@
                 and sex=#{sex}
             </if>
             <if test="teachLevel !=null and teachLevel!=''">
-                and teach_level =#{teach_level}
+                and teach_level =#{teachLevel}
             </if>
         </where>
     </select>
@@ -86,12 +109,21 @@
         select
             id,
             name,
+            case when sex='01' then '男'
+                 when sex='02' then '女'
+                end sex_Name,
             sex,
             age,
+            case when teach_level='01' then '讲师'
+                 when teach_level='02' then '副教授'
+                 when teach_level='03' then '教授'
+                 else '其他'
+                end teach_level_name,
             teach_level as teach_level,
             remark,
             DATE_FORMAT(creation_time,'%Y-%m-%d %H:%i:%s') as creation_time,
-            DATE_FORMAT(update_time,'%Y-%m-%d %H:%i:%s') as update_time
+            DATE_FORMAT(update_time,'%Y-%m-%d %H:%i:%s') as update_time,
+            DATE_FORMAT(entry_time,'%Y-%m-%d %H:%i:%s') as entry_time,
         from graduation_teach
         where id=#{id}
     </select>

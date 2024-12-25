@@ -8,8 +8,6 @@ import lombok.Data;
 public class Page<T> {
     private int pageNo; // 当前页
     private int pageSize;    // 每页大小
-
-
     public Page() {
     }
 }
